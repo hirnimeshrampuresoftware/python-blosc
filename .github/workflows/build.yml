@@ -36,24 +36,23 @@ jobs:
         PYTHONPATH: '.'
         
   test-aarch64:
-    name: "Test ${{ matrix.pyver }} aarch64"
+    name: "Build and test on aarch64"
     strategy:
       matrix:
         pyver: [cp37-cp37m, cp38-cp38, cp39-cp39]
-        arch: [aarch64]
       fail-fast: false
     runs-on: ubuntu-latest
     env:
       py: /opt/python/${{ matrix.pyver }}/bin/python
-      img: quay.io/pypa/manylinux2014_${{ matrix.arch }}
+      img: quay.io/pypa/manylinux2014_aarch64
     steps:
     - name: Checkout
       uses: actions/checkout@v2
     - name: Set up QEMU
       id: qemu
       uses: docker/setup-qemu-action@v1
-    - name: Install Ninja
-      uses: seanmiddleditch/gha-setup-ninja@master      
+    #- name: Install Ninja
+     # uses: seanmiddleditch/gha-setup-ninja@master      
     - name: Install and run tests
       run: |
             docker run --rm -v ${{ github.workspace }}:/ws:rw --workdir=/ws \
